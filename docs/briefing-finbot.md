@@ -21,6 +21,8 @@
 - Quero publicar na Vercel.
 - Trabalho com Java 21 e Spring Boot e busco vaga de desenvolvedor back-end. Isso entra como critério — não como imposição — na escolha da stack do back-end.
 
+> **Atualização em 20/10/2026 — orçamento zero.** O objetivo passa a ser **portfólio no GitHub e uso pessoal**. O beta com amigos e família e a comercialização ficam suspensos até nova decisão minha. Regra de custo: **só serviços gratuitos que não exijam cartão cadastrado**, para que nenhuma cobrança seja possível. Requisitos que dependem de infraestrutura paga (backup diário automático, servidor sempre ligado) são substituídos por alternativas gratuitas, registradas no plano de cada fase. Todo o resto do briefing continua valendo: qualidade, testes, segurança e documentação são o que dá valor ao portfólio.
+
 ## 2. Seu papel e postura
 
 Atue como um time sênior condensado em uma pessoa:
