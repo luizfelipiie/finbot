@@ -1,0 +1,16 @@
+# Local development database: docker compose up -d. Port 55432 avoids clashing with native
+# Postgres installs on 5432-5434. Credentials are local-only, not secrets.
+services:
+  postgres:
+    image: postgres:17-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24
+    environment:
+      POSTGRES_DB: finbot
+      POSTGRES_USER: finbot
+      POSTGRES_PASSWORD: finbot
+    ports:
+      - "127.0.0.1:55432:5432"
+    volumes:
+      - finbot-postgres:/var/lib/postgresql/data
+
+volumes:
+  finbot-postgres:

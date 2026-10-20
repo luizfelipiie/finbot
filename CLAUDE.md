@@ -41,8 +41,10 @@ Diagnóstico: `docs/diagnostico.md`. Decisões: `docs/adr/`. Planos e relatório
 - Nenhuma cor hardcoded em componente: só tokens.
 
 ## Estrutura e comandos
-- `web/` app novo · `api/` Spring Boot (Fase 2) · `legacy/` protótipo antigo congelado (sem features novas).
-- Em `web/`: `npm run dev` · `lint` (inclui guarda de cores) · `format:check` · `typecheck` · `test` · `test:e2e` · `build` · `prints`.
-- Antes de concluir qualquer mudança em `web/`: lint, typecheck, test e test:e2e verdes.
+- `web/` app novo · `api/` Spring Boot 4 + Postgres · `legacy/` protótipo antigo congelado (sem features novas).
+- Custo zero: só serviços gratuitos sem cartão (Render Free + Neon Free, ADR 0009/0010). Deploy em `docs/deploy.md`.
+- Em `web/`: `npm run dev` · `lint` (inclui guarda de cores) · `format:check` · `typecheck` · `test` · `test:e2e` · `build` · `prints` · `smoke`.
+- Em `api/`: `docker compose up -d` (Postgres em 55432) · `./mvnw spring-boot:run -Dspring-boot.run.profiles=local` · `./mvnw verify` (Docker aberto). Esquema só por Flyway.
+- Antes de concluir qualquer mudança em `web/`: lint, typecheck, test e test:e2e verdes; em `api/`: `./mvnw verify` verde.
 - Dinheiro só por `src/lib/money.ts` e `<Amount>`; datas só por `src/lib/dates.ts`; cores só em `src/styles/tokens.css`.
 - Em `legacy/`: `npm run dev` (UI 5173 + API 127.0.0.1:3001); dados em `legacy/finbot-data.json`, fora do git.

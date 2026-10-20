@@ -1,0 +1,37 @@
+# Version updates once a week, grouped to keep the PR count low. legacy/ is frozen and left out;
+# GitHub security alerts still cover it.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
+
+  - package-ecosystem: npm
+    directory: /web
+    schedule:
+      interval: weekly
+    groups:
+      web-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: maven
+    directory: /api
+    schedule:
+      interval: weekly
+    groups:
+      api-minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: docker
+    directory: /api
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: docker-compose
+    directory: /api
+    schedule:
+      interval: weekly

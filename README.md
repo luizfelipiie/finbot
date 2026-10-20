@@ -10,7 +10,7 @@ Aplicativo de finanças pessoais em português, mobile-first: visão clara do m�
 
 ```
 web/      app novo: React 19 + Vite + TypeScript strict + Tailwind 4 (Fase 1 em diante)
-api/      reservado para a API em Java 21 + Spring Boot (Fase 2)
+api/      API em Java 21 + Spring Boot 4, Postgres e Flyway (Fase 2 em diante)
 legacy/   protótipo original, congelado até ser substituído na Fase 3
 docs/     briefing, diagnóstico, ADRs, planos e relatórios de fase
 ```
@@ -35,8 +35,29 @@ npm run dev            # http://localhost:5173
 | `npm run test:e2e` | E2E em 390px e 1280px com verificação de acessibilidade (Playwright + axe). Na primeira vez: `npx playwright install chromium` |
 | `npm run build` | Build de produção |
 | `npm run prints` | Gera os prints do relatório de fase |
+| `npm run smoke -- <app> <api>` | Confere o proxy da API no deploy ([guia](docs/deploy.md)) |
 
 Rotas úteis: `/` (Início), `/design-system` (tokens, contraste e componentes). A barra do protótipo troca a cor de destaque e o cenário de dados (mês normal, estouro, sem receita, carregando, erro, sem conexão).
+
+## Rodando a API
+
+Requer Java 21 e Docker em execução (banco local e testes de integração).
+
+```bash
+cd api
+docker compose up -d                                       # Postgres local na porta 55432
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local    # http://127.0.0.1:8080
+```
+
+Com a API e o `npm run dev` do `web/` rodando, o front alcança a API em `/api`, como em produção.
+
+| Comando | O que faz |
+| --- | --- |
+| `./mvnw verify` | Testes de unidade e de integração (Postgres real via Testcontainers) e cobertura do domínio |
+| `./mvnw spring-boot:test-run` | Sobe a API com um Postgres descartável, sem `docker compose` |
+| `docker build -t finbot-api .` | Imagem de produção |
+
+Deploy com custo zero (Render Free + Neon Free, sem cartão): [`docs/deploy.md`](docs/deploy.md).
 
 ## Rodando o protótipo antigo
 
@@ -60,6 +81,7 @@ Os dados ficam em `legacy/finbot-data.json`, fora do git, com backup automático
 - [Diagnóstico (Fase 0)](docs/diagnostico.md)
 - [Decisões de arquitetura (ADRs)](docs/adr/)
 - [Planos e relatórios de fase](docs/fases/)
+- [Deploy da API](docs/deploy.md)
 - [Preparação do WhatsApp](docs/whatsapp-preparacao.md)
 
 ## Autor

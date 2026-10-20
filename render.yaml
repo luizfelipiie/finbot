@@ -1,0 +1,31 @@
+# Render Blueprint for the API (ADR 0009). Free instance, no payment method on the account:
+# when a free limit runs out, Render suspends the service instead of billing.
+services:
+  - type: web
+    name: finbot-api
+    runtime: docker
+    plan: free
+    region: virginia
+    rootDir: api
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: ./api
+    # Liveness only; it must not touch the database (see HealthController).
+    healthCheckPath: /health
+    # Deploy only commits whose GitHub checks passed.
+    autoDeployTrigger: checksPass
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      # Secrets: Render asks for these when the Blueprint is created (docs/deploy.md).
+      - key: SPRING_DATASOURCE_URL
+        sync: false
+      - key: SPRING_DATASOURCE_USERNAME
+        sync: false
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false
+      - key: SPRING_FLYWAY_USER
+        sync: false
+      - key: SPRING_FLYWAY_PASSWORD
+        sync: false
+      - key: FINBOT_ORIGIN_SECRET
+        sync: false

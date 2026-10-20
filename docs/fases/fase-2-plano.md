@@ -1,6 +1,6 @@
 # Fase 2 — Plano: núcleo financeiro
 
-> Status: **revisado para custo zero (opção B, escolhida em 20/10/2026); aguardando aprovação para implementar** · Branch: `fase-2-nucleo-financeiro` · Tamanho: **G**
+> Status: **aprovado em 20/10/2026 (opção B, custo zero, cadastro por convite, dados reais só a partir da Fase 3); em implementação** · Branch: `fase-2-nucleo-financeiro` · Tamanho: **G**
 > Referências: briefing §1 (atualização de 20/10/2026: orçamento zero), §9, §12, §13 e §14 · `docs/diagnostico.md` §4 e §5 · ADRs 0001–0008.
 > Limites dos planos gratuitos consultados em 20/10/2026 nas páginas oficiais (fontes no fim).
 
@@ -138,10 +138,10 @@ O **Postgres gratuito do próprio Render não serve**: ele expira 30 dias depois
 | Render | `SPRING_PROFILES_ACTIVE` | `prod` | Não |
 | Render | `SPRING_DATASOURCE_URL` | URL JDBC da Neon (com `sslmode=require`) | Sim |
 | Render | `SPRING_DATASOURCE_USERNAME` / `SPRING_DATASOURCE_PASSWORD` | Papel da aplicação na Neon, sem permissão de DDL | Sim |
-| Render | `FLYWAY_URL` / `FLYWAY_USER` / `FLYWAY_PASSWORD` | Papel separado só para migrações | Sim |
+| Render | `SPRING_FLYWAY_USER` / `SPRING_FLYWAY_PASSWORD` | Papel dono do banco, só para migrações (mesma URL) | Sim |
 | Render | `FINBOT_ORIGIN_SECRET` | Valor aleatório de 32 bytes, igual ao da Vercel | Sim |
-| Render | `JAVA_TOOL_OPTIONS` | Ajustes de memória da JVM | Não |
 | Vercel (só Production) | `ORIGIN_SECRET` | Igual ao `FINBOT_ORIGIN_SECRET` | Sim |
+| Vercel (só Production) | `API_ORIGIN` | Endereço `onrender.com` da API; sem ele, os previews não alcançam a API | Não |
 | Local | `api/.env.example` versionado; `.env` real fora do git | Valores de desenvolvimento | — |
 
 Nenhuma variável `VITE_*` carrega segredo; o front não precisa de nenhuma nesta fase. O deploy é disparado pela integração do próprio Render com o GitHub, configurada para esperar o CI passar, sem token guardado no GitHub.

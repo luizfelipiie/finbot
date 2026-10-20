@@ -17,7 +17,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "prints": "npm run build && node scripts/capture-prints.mjs"
+    "prints": "npm run build && node scripts/capture-prints.mjs",
+    "smoke": "node scripts/smoke-api.mjs"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",

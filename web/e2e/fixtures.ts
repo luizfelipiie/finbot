@@ -6,8 +6,16 @@ export const FIXED_NOW = new Date('2026-10-20T01:30:00Z')
 
 export const test = base.extend({
   page: async ({ page }, use) => {
+    // vite preview serves the production CSP (vite.config.ts); any violation fails the test.
+    const cspViolations: string[] = []
+    page.on('console', (message) => {
+      if (message.type() === 'error' && message.text().includes('Content Security Policy')) {
+        cspViolations.push(message.text())
+      }
+    })
     await page.clock.setFixedTime(FIXED_NOW)
     await use(page)
+    expect(cspViolations).toEqual([])
   },
 })
 
