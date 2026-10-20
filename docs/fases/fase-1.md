@@ -1,6 +1,6 @@
 # Fase 1 — Relatório: correções críticas e design system
 
-> Branch `fase-1-correcoes-e-design-system` · Plano: [`fase-1-plano.md`](fase-1-plano.md) (aprovado em 20/10/2026) · Status: **aguardando sua aprovação**
+> Branch `fase-1-correcoes-e-design-system` · Plano: [`fase-1-plano.md`](fase-1-plano.md) · Status: **aprovada e mesclada na `main`** · Deploy: https://finbot-ochre.vercel.app
 
 ## O que foi feito
 
@@ -128,3 +128,17 @@ Números locais: 113 testes de unidade e componente, 22 E2E (11 cenários × 2 l
 6. **Migração dos dados antigos:** como você confirmou que são todos de teste, proponho **não migrar** e começar do zero, o que elimina o script e o relatório de divergências previstos. Confirma?
 
 Tamanho estimado: **G**.
+
+## Aprovação
+
+Fases 0 e 1 aprovadas e mescladas na `main` (PRs #1 e #2). Decisões do Luiz:
+
+1. **Cor de destaque: Âmbar** (`#F2C94C`). Quente e Lima saem do código e do seletor.
+2. **Navegação aprovada:** Início, Transações, +, Planejar e Carteira; Configurações pelo avatar.
+3. **Dados antigos:** só de teste. A Fase 2 começa do zero, sem script de migração.
+
+Ajustes pedidos após teste no iPhone e no desktop, para fazer no início da Fase 3:
+
+- Desktop: o cartão "Saldo em contas" estica até a altura do "Resumo do mês" e fica com um vazio no meio. Resolver sem acrescentar conteúdo.
+- Rosca: mostrar o valor cheio do "Disponível" no centro; abreviar só onde faltar espaço.
+- Mobile: garantir que o último item do Início fique inteiro acima da barra inferior, incluindo a área segura do iPhone com o app instalado como PWA.
