@@ -4,7 +4,6 @@ import { AppShell } from '@/components/layout/AppShell'
 import { ToastProvider } from '@/components/ui/Toast'
 import { TooltipProvider } from '@/components/ui/Tooltip'
 import { HomePage } from '@/features/home/HomePage'
-import { DesignSystemPage } from '@/pages/DesignSystemPage'
 import { PlaceholderPage } from '@/pages/PlaceholderPage'
 import { PrivacyProvider } from './privacy'
 import { PrototypeProvider } from './prototype'
@@ -50,7 +49,13 @@ const router = createBrowserRouter([
           />
         ),
       },
-      { path: 'design-system', element: <DesignSystemPage /> },
+      {
+        // Internal reference page: kept out of the initial bundle.
+        path: 'design-system',
+        lazy: async () => ({
+          Component: (await import('@/pages/DesignSystemPage')).DesignSystemPage,
+        }),
+      },
       {
         path: '*',
         element: (
