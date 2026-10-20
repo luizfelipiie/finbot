@@ -3,8 +3,18 @@ import cors from 'cors'
 import { v4 as uuid } from 'uuid'
 import { load, save, getDb } from './storage.js'
 
+const PORT = 3001
+const HOST = '127.0.0.1'
+const ALLOWED_HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`])
+
 load()
 const app = express()
+// Blocks DNS rebinding: a hostile page resolving its own domain to 127.0.0.1
+// still sends its own name in the Host header.
+app.use((req, res, next) => {
+  if (!ALLOWED_HOSTS.has(req.headers.host)) return res.status(403).json({ error: 'Forbidden host' })
+  next()
+})
 app.use(cors({ origin: 'http://localhost:5173' }))
 app.use(express.json())
 
@@ -146,9 +156,6 @@ app.post('/api/messages', (req, res) => {
 })
 
 // ── start ─────────────────────────────────────────────────────────────────
-
-const PORT = 3001
-const HOST = '127.0.0.1'
 
 // Express 5 passes startup errors (e.g. port in use) to this callback.
 app.listen(PORT, HOST, (err) => {
