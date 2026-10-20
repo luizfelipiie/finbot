@@ -40,7 +40,9 @@ Diagnóstico: `docs/diagnostico.md`. Decisões: `docs/adr/`. Planos e relatório
 - Toda tela com estados carregando/vazio/erro/sem conexão. Contraste AA, alvo ≥ 44px, foco visível.
 - Nenhuma cor hardcoded em componente: só tokens.
 
-## Comandos (app atual; revisar quando a stack nova entrar)
-- `npm run dev` — UI (5173) + API (127.0.0.1:3001). `npm run dev:ui` / `npm run dev:api` separados.
-- `npm run lint` · `npm run build` (inclui `tsc -b`). Testes: ainda não existem.
-- Dados locais em `finbot-data.json` (fora do git); backup automático em `finbot-data.json.bak`.
+## Estrutura e comandos
+- `web/` app novo · `api/` Spring Boot (Fase 2) · `legacy/` protótipo antigo congelado (sem features novas).
+- Em `web/`: `npm run dev` · `lint` (inclui guarda de cores) · `format:check` · `typecheck` · `test` · `test:e2e` · `build` · `prints`.
+- Antes de concluir qualquer mudança em `web/`: lint, typecheck, test e test:e2e verdes.
+- Dinheiro só por `src/lib/money.ts` e `<Amount>`; datas só por `src/lib/dates.ts`; cores só em `src/styles/tokens.css`.
+- Em `legacy/`: `npm run dev` (UI 5173 + API 127.0.0.1:3001); dados em `legacy/finbot-data.json`, fora do git.

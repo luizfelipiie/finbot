@@ -1,6 +1,6 @@
 # Fase 1 — Plano: correções críticas e design system
 
-> Status: **aguardando aprovação** · Branch: `fase-1-correcoes-e-design-system` · Tamanho: **G**
+> Status: **aprovado em 20/10/2026**; relatório em [`fase-1.md`](fase-1.md) · Branch: `fase-1-correcoes-e-design-system` · Tamanho: **G**
 > Referências: briefing seções 6, 7.1, 7.2, 8 e 14 · `docs/diagnostico.md` · ADRs 0001–0004.
 
 ## Objetivo
