@@ -1,0 +1,64 @@
+/*
+ * Design tokens: the only file allowed to contain color literals
+ * (enforced by scripts/check-hardcoded-colors.mjs).
+ * Contrast pairs are verified in src/lib/contrast.test.ts.
+ */
+:root {
+  /* Surfaces: elevation is expressed by steps, never by shadow */
+  --c-bg: #0a0a0b;
+  --c-surface-1: #121214;
+  --c-surface-2: #1a1a1d;
+  --c-surface-3: #232327;
+
+  /* Borders: subtle for cards and dividers, strong for control boundaries (3:1) */
+  --c-border: #2a2a2f;
+  --c-border-strong: #6e6e77;
+
+  /* Text */
+  --c-fg: #ededef;
+  --c-fg-muted: #a1a1aa;
+  --c-fg-subtle: #8e8e97;
+
+  /* Accent (three candidates, chosen via data-accent on <html>) */
+  --c-accent: #f5d547;
+  --c-accent-hover: #f8e070;
+  --c-accent-ink: #0a0a0b;
+
+  /* Meaning (always paired with sign or icon, never color alone) */
+  --c-positive: #4cb782;
+  --c-negative: #eb6b63;
+  --c-warning: #f0883e;
+
+  /* Chart neutrals for non-highlighted series */
+  --c-chart-1: #b4b4bc;
+  --c-chart-2: #8e8e97;
+  --c-chart-3: #6b6b73;
+
+  /* Overlay behind dialogs and sheets */
+  --c-scrim: #000000b3;
+
+  /* Motion */
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --motion-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Layering */
+  --z-nav: 20;
+  --z-overlay: 40;
+  --z-toast: 50;
+}
+
+:root[data-accent='ambar'] {
+  --c-accent: #f2c94c;
+  --c-accent-hover: #f5d675;
+}
+
+:root[data-accent='quente'] {
+  --c-accent: #f5d547;
+  --c-accent-hover: #f8e070;
+}
+
+:root[data-accent='lima'] {
+  --c-accent: #ddf24a;
+  --c-accent-hover: #e6f573;
+}
