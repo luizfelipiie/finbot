@@ -22,3 +22,14 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local data (personal finance data never goes to git)
+finbot-data.json
+finbot-data.json.*
+.env
+.env.*
+!.env.example
+
+# Third-party design references: kept locally, not published
+docs/referencias/*
+!docs/referencias/00-estado-atual.png
