@@ -5,7 +5,7 @@ import { load, save, getDb } from './storage.js'
 
 load()
 const app = express()
-app.use(cors())
+app.use(cors({ origin: 'http://localhost:5173' }))
 app.use(express.json())
 
 // ── profiles ──────────────────────────────────────────────────────────────
@@ -148,4 +148,16 @@ app.post('/api/messages', (req, res) => {
 // ── start ─────────────────────────────────────────────────────────────────
 
 const PORT = 3001
-app.listen(PORT, () => console.log(`\x1b[32m✓ API rodando em http://localhost:${PORT}\x1b[0m`))
+const HOST = '127.0.0.1'
+
+// Express 5 passes startup errors (e.g. port in use) to this callback.
+app.listen(PORT, HOST, (err) => {
+  if (err) {
+    const reason = err.code === 'EADDRINUSE'
+      ? `porta ${PORT} já está em uso (outro servidor da API ainda rodando?)`
+      : err.message
+    console.error(`\x1b[31m✗ API não subiu: ${reason}\x1b[0m`)
+    process.exit(1)
+  }
+  console.log(`\x1b[32m✓ API rodando em http://${HOST}:${PORT}\x1b[0m`)
+})
