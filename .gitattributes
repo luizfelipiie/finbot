@@ -1,0 +1,3 @@
+# Normalize line endings so Prettier and CI agree across Windows and Linux.
+* text=auto eol=lf
+*.png binary

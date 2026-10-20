@@ -1,141 +1,71 @@
-# FinBot 💚
+# FinBot
 
-**Aplicativo de finanças pessoais com interface conversacional.**
+Aplicativo de finanças pessoais em português, mobile-first: visão clara do mês, compromissos fixos, caixinhas, carteira de investimentos e registro rápido de gastos, inclusive pelo WhatsApp. Todo número exibido é explicável até as transações que o compõem.
 
-Registre gastos e receitas conversando, em linguagem natural. Sem formulários e sem planilhas.
+> **Em reestruturação.** O projeto está sendo reconstruído em fases, com plano, decisões e relatório documentados em [`docs/`](docs/). A versão atual do novo app é um protótipo navegável com dados fictícios.
 
-<!-- Quando tiver um print ou GIF do chat, salve em docs/ e descomente a linha abaixo -->
-<!-- ![FinBot em uso](docs/finbot.gif) -->
+![Início no celular](docs/fases/fase-1/inicio-390-quente.png)
 
----
+## Estrutura
 
-## ✨ Funcionalidades
+```
+web/      app novo: React 19 + Vite + TypeScript strict + Tailwind 4 (Fase 1 em diante)
+api/      reservado para a API em Java 21 + Spring Boot (Fase 2)
+legacy/   protótipo original, congelado até ser substituído na Fase 3
+docs/     briefing, diagnóstico, ADRs, planos e relatórios de fase
+```
 
-- **Chat em linguagem natural:** registre lançamentos digitando frases como *"Gastei R$50 no mercado pelo Nubank"*
-- **Múltiplos perfis:** você, cônjuge ou empresa, com dados totalmente separados
-- **Múltiplas contas:** Nubank, Itaú, Carteira, Poupança e outras, cada uma com saldo e histórico próprios
-- **Categorização automática:** Alimentação, Transporte, Lazer, Saúde e outras categorias identificadas pelo texto
-- **Metas gamificadas:** objetivos financeiros com barras de progresso animadas
-- **Insights automáticos:** alertas sobre padrões de gastos e saúde financeira
-- **Relatórios no chat:** gráficos e resumos gerados direto na conversa
-- **Responsivo:** funciona no desktop e no celular
+## Rodando o app novo
 
----
-
-## 🛠 Tech Stack
-
-| Camada | Tecnologia |
-| --- | --- |
-| Front-end | React 19 + Vite |
-| Linguagem | TypeScript |
-| Estilo | Tailwind CSS 4 |
-| Animações | Framer Motion |
-| Gráficos | Recharts |
-| Estado | Zustand |
-| API | Node.js + Express 5 (REST) |
-| Persistência | Arquivo JSON local |
-
----
-
-## 🚀 Como rodar localmente
+Requer Node 22.22 ou mais recente.
 
 ```bash
-# Clone o repositório
-git clone https://github.com/luizfelipiie/finbot.git
-cd finbot
-
-# Instale as dependências
+cd web
 npm install
-
-# Sobe o front e a API juntos
-npm run dev
+npm run dev            # http://localhost:5173
 ```
 
-- Front-end: **http://localhost:5173**
-- API: **http://localhost:3001**
-
-Para subir cada parte separadamente, use `npm run dev:ui` e `npm run dev:api`.
-
-Os dados ficam salvos em `finbot-data.json`, na raiz do projeto. Esse arquivo é criado na primeira gravação e não vai para o repositório.
-
----
-
-## 🔌 API
-
-O front consome uma API REST em Express, que persiste os dados em arquivo JSON.
-
-| Recurso | Endpoints |
+| Comando | O que faz |
 | --- | --- |
-| Perfis | `GET /api/profiles` · `POST /api/profiles` · `DELETE /api/profiles/:id` |
-| Contas | `GET /api/accounts/:profileId` · `POST /api/accounts` · `PUT /api/accounts/:id` · `DELETE /api/accounts/:id` |
-| Transações | `GET /api/transactions/:profileId` · `POST /api/transactions` · `PUT /api/transactions/:id` · `DELETE /api/transactions/:id` |
-| Metas | `GET /api/goals/:profileId` · `POST /api/goals` · `PUT /api/goals/:id` · `DELETE /api/goals/:id` |
-| Mensagens | `GET /api/messages/:profileId` · `POST /api/messages` |
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run lint` | ESLint e verificação de cores fora dos tokens |
+| `npm run format:check` | Prettier |
+| `npm run typecheck` | TypeScript strict |
+| `npm test` | Testes de unidade e de componente (Vitest + Testing Library) |
+| `npm run test:e2e` | E2E em 390px e 1280px com verificação de acessibilidade (Playwright + axe). Na primeira vez: `npx playwright install chromium` |
+| `npm run build` | Build de produção |
+| `npm run prints` | Gera os prints do relatório de fase |
 
-Regras de negócio na API:
+Rotas úteis: `/` (Início), `/design-system` (tokens, contraste e componentes). A barra do protótipo troca a cor de destaque e o cenário de dados (mês normal, estouro, sem receita, carregando, erro, sem conexão).
 
-- Excluir um perfil remove em cascata as contas, transações, metas e mensagens dele.
-- Excluir uma conta remove as transações dessa conta.
-- O histórico do chat guarda as últimas 200 mensagens por perfil, e a listagem retorna as 100 mais recentes.
+## Rodando o protótipo antigo
 
----
-
-## 📁 Estrutura do projeto
-
-```
-finbot/
-├── server/
-│   ├── index.js              # API Express: rotas REST de perfis, contas, transações, metas e mensagens
-│   └── storage.js            # Leitura e gravação do arquivo JSON
-├── src/
-│   ├── components/
-│   │   ├── ChatView.tsx          # Tela principal do chat
-│   │   ├── ChatMessage.tsx       # Bolhas de mensagem com gráficos inline
-│   │   ├── ChatInput.tsx         # Input com ações rápidas
-│   │   ├── Sidebar.tsx           # Navegação, perfis e contas
-│   │   ├── TransactionsView.tsx  # Extrato com filtros
-│   │   ├── GoalsView.tsx         # Metas com barras de progresso
-│   │   ├── InsightsView.tsx      # Insights e gráfico de tendência
-│   │   ├── AccountModal.tsx      # Modal de nova conta
-│   │   ├── ProfileModal.tsx      # Modal de novo perfil
-│   │   └── MobileNav.tsx         # Navegação mobile
-│   ├── store/
-│   │   └── useFinanceStore.ts    # Store Zustand, interpretação das frases e lógica de negócio
-│   ├── App.tsx
-│   └── index.css
-└── public/
+```bash
+cd legacy
+npm install
+npm run dev            # UI em http://localhost:5173, API em http://127.0.0.1:3001
 ```
 
----
+Os dados ficam em `legacy/finbot-data.json`, fora do git, com backup automático a cada gravação. A API aceita conexões só da própria máquina.
 
-## 💬 Comandos do chat
+## Princípios
 
-| O que digitar | O que acontece |
-| --- | --- |
-| `Gastei R$80 no restaurante pelo Nubank` | Registra uma despesa na conta Nubank |
-| `Recebi R$3000 de salário` | Registra uma receita |
-| `Qual meu saldo?` | Mostra o resumo financeiro com gráfico |
-| `Resumo do mês` | Gera relatório de gastos por categoria |
-| `Ver minhas metas` | Lista as metas com o progresso |
-| `Minhas contas` | Lista as contas cadastradas |
+- Dinheiro em centavos inteiros, nunca ponto flutuante. Datas no fuso do usuário.
+- Saldo sempre derivado das transações; transferência nunca conta como receita ou despesa.
+- Interface acessível (WCAG 2.2 AA), sem dados ou selos fictícios apresentados como reais.
+- Regras completas em [`CLAUDE.md`](CLAUDE.md) e no [briefing](docs/briefing-finbot.md).
 
----
+## Documentação
 
-## 🧭 Próximos passos
+- [Diagnóstico (Fase 0)](docs/diagnostico.md)
+- [Decisões de arquitetura (ADRs)](docs/adr/)
+- [Planos e relatórios de fase](docs/fases/)
+- [Preparação do WhatsApp](docs/whatsapp-preparacao.md)
 
-- Validar os campos aceitos em cada rota antes de gravar
-- Trocar o arquivo JSON por um banco (SQLite ou PostgreSQL) para suportar acessos simultâneos
-- Publicar o front na Vercel e a API no Railway
-- Adicionar testes automatizados para as rotas da API
+## Autor
 
----
+**Luiz Felipe de Sá Naves Peixoto** · [LinkedIn](https://www.linkedin.com/in/luiz-felipe-3aa401360/) · [GitHub](https://github.com/luizfelipiie)
 
-## 👤 Autor
-
-**Luiz Felipe de Sá Naves Peixoto**
-
-[LinkedIn](https://www.linkedin.com/in/luiz-felipe-3aa401360/) · [GitHub](https://github.com/luizfelipiie)
-
-## 📄 Licença
+## Licença
 
 MIT

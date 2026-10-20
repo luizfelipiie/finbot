@@ -3,9 +3,19 @@ import cors from 'cors'
 import { v4 as uuid } from 'uuid'
 import { load, save, getDb } from './storage.js'
 
+const PORT = 3001
+const HOST = '127.0.0.1'
+const ALLOWED_HOSTS = new Set([`127.0.0.1:${PORT}`, `localhost:${PORT}`])
+
 load()
 const app = express()
-app.use(cors())
+// Blocks DNS rebinding: a hostile page resolving its own domain to 127.0.0.1
+// still sends its own name in the Host header.
+app.use((req, res, next) => {
+  if (!ALLOWED_HOSTS.has(req.headers.host)) return res.status(403).json({ error: 'Forbidden host' })
+  next()
+})
+app.use(cors({ origin: 'http://localhost:5173' }))
 app.use(express.json())
 
 // ── profiles ──────────────────────────────────────────────────────────────
@@ -147,5 +157,14 @@ app.post('/api/messages', (req, res) => {
 
 // ── start ─────────────────────────────────────────────────────────────────
 
-const PORT = 3001
-app.listen(PORT, () => console.log(`\x1b[32m✓ API rodando em http://localhost:${PORT}\x1b[0m`))
+// Express 5 passes startup errors (e.g. port in use) to this callback.
+app.listen(PORT, HOST, (err) => {
+  if (err) {
+    const reason = err.code === 'EADDRINUSE'
+      ? `porta ${PORT} já está em uso (outro servidor da API ainda rodando?)`
+      : err.message
+    console.error(`\x1b[31m✗ API não subiu: ${reason}\x1b[0m`)
+    process.exit(1)
+  }
+  console.log(`\x1b[32m✓ API rodando em http://${HOST}:${PORT}\x1b[0m`)
+})

@@ -33,3 +33,7 @@ finbot-data.json.*
 # Third-party design references: kept locally, not published
 docs/referencias/*
 !docs/referencias/00-estado-atual.png
+
+# web/ test output
+web/playwright-report
+web/test-results
